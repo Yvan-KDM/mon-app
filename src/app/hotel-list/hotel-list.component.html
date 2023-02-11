@@ -1,0 +1,47 @@
+<div class="container">
+    <h2 *ngIf = 'hotels && hotels.length > 0' >{{title}}</h2>
+    
+    <button class="btn btn-primary d-flex" (click)="toggleIsNewBadge()">
+       <span class="material-icons">
+        {{showBadge ? 'visibility_off' : 'visibility'}}
+       </span>
+       <span class="ms-2">
+        {{showBadge ? 'Cacher' : 'afficher'}} nouveau
+       </span>
+    </button>
+   <hr>
+   
+   <div class="my-2">   
+        <div class="row">
+        <div class="col-md-4"></div>
+            <span class="filter">Filtre actuel :  <b>{{hotelFilter}}</b> </span>
+        </div>
+    <div class="col-md-8" form-group>
+    <!---
+        Forme longue du two way sata binding : Le (ngModelChange) nous génère en interne un evenement ($event) qui viendra du [ngModel], et que nous pouvons récupérer dans botre propriété hotelFilter.  
+        <input type="text" class="form-control" [ngModel] = "hotelFilter" (ngModelChange) = "hotelFilter = $event">-->
+    <input type="text" class="form-control" [(ngModel)] = "hotelFilter">
+    </div>
+   </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" *ngFor = "let hotel of filteredHotels;
+        ">
+          <div class="card">
+            <img 
+            [src]="hotel.imageUrl" 
+            [title]="hotel.hotelName | uppercase"  
+            [alt]="hotel.hotelName"
+            class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{hotel.hotelName | titlecase}}</h5>
+              <p class="card-text"> {{hotel.description}}</p>
+              <div class="card-text">
+                {{hotel.price | currency : "EUR" : "symbol" : "1.2-2" : "fr" | replaceComma}}
+              </div>
+              <app-star-rating></app-star-rating>
+              <span class="badge rounded-pill text-bg-info" *ngIf = "showBadge">Nouveau</span>
+            </div>
+          </div>
+        </div>
+</div>
