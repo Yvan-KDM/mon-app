@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { IHotel } from "./hotel";
+import { HotelListService } from "./hotel-list.service";
 
 @Component({
     selector: 'app-hotel-list',
@@ -9,43 +10,21 @@ import { IHotel } from "./hotel";
 export class HotelListComponent implements OnInit {
 
     public title = 'Liste des hotels';
-    public hotels: IHotel[] = [
-        {
-            "hotelId": 1,
-            "hotelName": "Buea sweet life",
-            "description": "Belle vue au bord de la mer",
-            "price": 230.5,
-            "imageUrl": "assets/img/hotel-room.jpg",
-        },
-        {
-            "hotelId": 2,
-            "hotelName": "Marakech",
-            "description": "Profitez de la vue sur les montagnes",
-            "price": 145.5,
-            "imageUrl": "assets/img/the-interior.jpg",
-        },
-        {
-            "hotelId": 3,
-            "hotelName": "Abudja new look palace",
-            "description": "Séjour complet avec service de voitures",
-            "price": 120.12,
-            "imageUrl": "assets/img/indoors.jpg",
-        },
-        {
-            "hotelId": 4,
-            "hotelName": "Cape town city",
-            "description": "Magnifique cadre pour votre séjour",
-            "price": 135.12,
-            "imageUrl": "assets/img/window.jpg",
-        }
-    ];
+    public hotels: IHotel[] = [];
+
     public showBadge: boolean = true;
     private _hotelFilter: string = 'mot';
-    public filteredHotels : IHotel[] = [];
+    public filteredHotels: IHotel[] = [];
+    public receivedRating: string = "";
+
+    constructor(private hotelListService: HotelListService) {
+
+    }
     ngOnInit() {
+        this.hotels = this.hotelListService.getHotels();
         this.filteredHotels = this.hotels;
         this.hotelFilter = '';
-    }
+    } 
 
     public toggleIsNewBadge(): void {
         this.showBadge = !this.showBadge;
@@ -55,18 +34,22 @@ export class HotelListComponent implements OnInit {
         return this._hotelFilter;
     }
 
-    public set hotelFilter(filter: string){
+    public set hotelFilter(filter: string) {
         this._hotelFilter = filter;
 
         this.filteredHotels = this.hotelFilter ? this.filterHotels(this.hotelFilter) : this.hotels;
     }
 
-    private filterHotels(criteria: string): IHotel[]{
-     criteria = criteria.toLocaleLowerCase();
-     const res = this.hotels.filter(
-        (hotel: IHotel) => hotel.hotelName.toLocaleLowerCase().indexOf(criteria) !== -1
-     );
-     return res;
+    public receiveRatingClicked(message: string): void {
+        this.receivedRating = message;
+    }
+
+    private filterHotels(criteria: string): IHotel[] {
+        criteria = criteria.toLocaleLowerCase();
+        const res = this.hotels.filter(
+            (hotel: IHotel) => hotel.hotelName.toLocaleLowerCase().indexOf(criteria) !== -1
+        );
+        return res;
     }
 
 }  

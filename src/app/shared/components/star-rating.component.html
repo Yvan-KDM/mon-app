@@ -1,4 +1,5 @@
-<div class="star-container">
+<div class="star-container" [style.width.px]="startWidth"
+[title]="rating" (click)="sendRating()">
 
     <div class="star-wapper">
         <span class="material-icons">star_rate</span>

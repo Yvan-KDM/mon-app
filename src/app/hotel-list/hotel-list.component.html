@@ -18,12 +18,12 @@
         </div>
     <div class="col-md-8" form-group>
     <!---
-        Forme longue du two way sata binding : Le (ngModelChange) nous génère en interne un evenement ($event) qui viendra du [ngModel], et que nous pouvons récupérer dans botre propriété hotelFilter.  
+        Forme longue du two way sata binding : Le (ngModelChange) nous génère en interne un evenement ($event) qui viendra du [ngModel], et que nous pouvons récupérer dans notre propriété hotelFilter.  
         <input type="text" class="form-control" [ngModel] = "hotelFilter" (ngModelChange) = "hotelFilter = $event">-->
     <input type="text" class="form-control" [(ngModel)] = "hotelFilter">
     </div>
    </div>
-
+<div class="alert alert-primary" *ngIf="!!receivedRating">{{receivedRating}}</div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" *ngFor = "let hotel of filteredHotels;
         ">
@@ -39,7 +39,7 @@
               <div class="card-text">
                 {{hotel.price | currency : "EUR" : "symbol" : "1.2-2" : "fr" | replaceComma}}
               </div>
-              <app-star-rating></app-star-rating>
+              <app-star-rating [rating]="hotel.rating" (starRatingClicked)="receiveRatingClicked($event)"></app-star-rating>
               <span class="badge rounded-pill text-bg-info" *ngIf = "showBadge">Nouveau</span>
             </div>
           </div>

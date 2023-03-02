@@ -1,6 +1,7 @@
 {
   "name": "mon-app",
   "version": "0.0.0",
+  "description": "Hotel management",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
