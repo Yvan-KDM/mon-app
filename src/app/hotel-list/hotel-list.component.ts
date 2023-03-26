@@ -16,15 +16,22 @@ export class HotelListComponent implements OnInit {
     private _hotelFilter: string = 'mot';
     public filteredHotels: IHotel[] = [];
     public receivedRating: string = "";
+    public errorMsg: string = "";
 
     constructor(private hotelListService: HotelListService) {
 
     }
     ngOnInit() {
-        this.hotels = this.hotelListService.getHotels();
-        this.filteredHotels = this.hotels;
+        this.hotelListService.getHotels().subscribe({
+            next: hotels => {
+                this.hotels = hotels,
+                    this.filteredHotels = this.hotels;
+            },
+            error: err => this.errorMsg = err
+        });
+
         this.hotelFilter = '';
-    } 
+    }
 
     public toggleIsNewBadge(): void {
         this.showBadge = !this.showBadge;
